@@ -28,11 +28,14 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     // admin login route
     Route::match(['get','post'],'login','AdminController@login');
 
-    // admin dashboard route without admin
-    Route::get('dashboard','AdminController@dashboard');
+    Route::group(['middleware'=>['admin']],function(){
+      // admin dashboard route without admin
+      Route::get('dashboard','AdminController@dashboard');
+
+      //admin logout
+      Route::get('logout','AdminController@logout');
+    });
+
+
 
 });
-
-
-
-
