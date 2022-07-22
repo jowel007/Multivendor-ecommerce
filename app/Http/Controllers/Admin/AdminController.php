@@ -6,12 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Auth;
+use Hash;
+
+use App\Models\Admin;
 
 class AdminController extends Controller
 {
     public function dashboard(){
         return view('admin.dashboard');
     }
+
+    //update password
+    public function UpdateAdminPassword(){
+        //echo "<pre>"; print_r(Auth::guard('admin')->user()); die();
+        $adminDetails = Admin::where('email',Auth::guard('admin')->user()->email)->first()->toArray();
+        return view('admin.setting.update_admin_password')->with(compact('adminDetails'));
+    }
+
 
     public function login(Request $request){
 
