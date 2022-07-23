@@ -23,8 +23,23 @@ class AdminController extends Controller
         return view('admin.setting.update_admin_password')->with(compact('adminDetails'));
     }
 
+    //check admin password
+
+    public function CheckAdminPassword(Request $request){
+        $data = $request->all();
+        // echo "<pre>"; print_r($data); die;
+        if (Hash::check($data['current_password'],Auth::guard('admin')->user()->password)){
+            return "true";
+        }else{
+            return "false";
+        }
+    }
+
+    //end check admin password
 
     public function login(Request $request){
+    
+    // echo $password = Hash::make('123456'); die;
 
       if($request->isMethod('post')){
         $data = $request->all();
