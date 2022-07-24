@@ -29,15 +29,16 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::match(['get','post'],'login','AdminController@login');
 
     Route::group(['middleware'=>['admin']],function(){
-      // admin dashboard route without admin
+    // admin dashboard route without admin
       Route::get('dashboard','AdminController@dashboard');
 
-      //Update admin password
+    //Update admin password
       Route::match(['get', 'post'], 'update-admin-password','AdminController@UpdateAdminPassword');
-      //check admin password
+    //check admin password
       Route::post('check-admin-password','AdminController@CheckAdminPassword');
-
-      //admin logout
+    //Update admin details
+    Route::match(['get', 'post'], 'update-admin-details','AdminController@UpdateAdminDetails');
+    //admin logout
       Route::get('logout','AdminController@logout');
       
     });

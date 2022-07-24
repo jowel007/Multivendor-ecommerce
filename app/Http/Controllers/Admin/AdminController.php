@@ -16,7 +16,7 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    //update password
+    //update admin password
     public function UpdateAdminPassword(Request $request){
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -52,6 +52,39 @@ class AdminController extends Controller
     }
 
     //end check admin password
+
+    //Update admin details
+    public function UpdateAdminDetails(Request $request){
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+
+            $rules = [
+                'admin_name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'admin_mobile' => 'required|numeric',
+            ];
+
+            $customeMessage = [
+                //add custome message here....
+                'admin_name.required' => 'Name is Required!',
+                'admin_name.regex' => 'Valid Name is Required!',
+                'admin_mobile.required' => 'Mobile is Required!',
+                'admin_mobile.numeric' => 'Valid Mobile is Required!',
+            ];
+
+            $this->validate($request,$rules,$customeMessage);
+
+            // update admin details
+            Admin::where('id',Auth::guard('admin')->user()->id)->update(['name'=>$data['admin_name'],'mobile'=>$data['admin_mobile']]);
+
+            return redirect()->back()->with('success_message','Admin Details Updated Successfully!');
+        }
+        return view('admin.setting.update_admin_details');
+    }
+
+    //end Update admin details
+
+
 
     public function login(Request $request){
     
