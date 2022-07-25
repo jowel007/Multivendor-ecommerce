@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use Hash;
+use Image;
 
 use App\Models\Admin;
 
@@ -74,8 +75,27 @@ class AdminController extends Controller
 
             $this->validate($request,$rules,$customeMessage);
 
+            //upload admin image
+            if ($request->hasFile('admin_image')) {
+                $image_tmp = $request->file('admin_image');
+                if ($image_tmp->isValid()) {
+                    // get image Extension
+                    $extension = $image_tmp->getClientOriginalExtension();
+                    //generate new image
+                    $imageName = rand(111,99999).'.'.$extension;
+                    $imagePath = 'admin/images/photos/'.$imageName;
+                    //upload the image
+                    Image::make($image_tmp)->save($imagePath);
+                }
+            }else if (!empty($data['current_admin_image'])) {
+                $imageName = $data['current_admin_image'];
+            }else{
+                $imageName = "";
+            }
+
+
             // update admin details
-            Admin::where('id',Auth::guard('admin')->user()->id)->update(['name'=>$data['admin_name'],'mobile'=>$data['admin_mobile']]);
+            Admin::where('id',Auth::guard('admin')->user()->id)->update(['name'=>$data['admin_name'],'mobile'=>$data['admin_mobile'],'image'=>$imageName]);
 
             return redirect()->back()->with('success_message','Admin Details Updated Successfully!');
         }
