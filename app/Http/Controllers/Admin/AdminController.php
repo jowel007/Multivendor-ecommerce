@@ -11,6 +11,8 @@ use Image;
 
 use App\Models\Admin;
 use App\Models\Vendor;
+use App\Models\VendorsBusinessDetails;
+use App\Models\VendorsBankDetails;
 
 class AdminController extends Controller
 {
@@ -162,9 +164,97 @@ class AdminController extends Controller
         $vendorDetails = Vendor::where('id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
 
         }elseif ($slug=="business") {
-            # code...
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                //echo "<pre>"; print_r($data); die;
+
+                $rules = [
+                    'shop_name' => 'required|regex:/^[\pL\s\-]+$/u',
+                    'shop_city' => 'required|regex:/^[\pL\s\-]+$/u',
+                    'shop_mobile' => 'required|numeric',
+                    'address_proof' => 'required',
+                ];
+    
+                $customeMessage = [
+                    //add custome message here....
+                    'shop_name.required' => 'Name is Required!',
+                    'shop_city.required' => 'City is Required!',
+                    'shop_name.regex' => 'Valid Name is Required!',
+                    'shop_city.regex' => 'Valid City is Required!',
+
+                    'shop_mobile.required' => 'Mobile is Required!',
+                    'shop_mobile.numeric' => 'Valid Mobile is Required!',
+                ];
+    
+                $this->validate($request,$rules,$customeMessage);
+    
+                //upload admin image
+                if ($request->hasFile('address_proof_image')) {
+                    $image_tmp = $request->file('address_proof_image');
+                    if ($image_tmp->isValid()) {
+                        // get image Extension
+                        $extension = $image_tmp->getClientOriginalExtension();
+                        //generate new image
+                        $imageName = rand(111,99999).'.'.$extension;
+                        $imagePath = 'admin/images/proofs/'.$imageName;
+                        //upload the image
+                        Image::make($image_tmp)->save($imagePath);
+                    }
+                }else if (!empty($data['current_address_proof'])) {
+                    $imageName = $data['current_address_proof'];
+                }else{
+                    $imageName = "";
+                }
+    
+   
+    
+                // update in vendors business details
+            VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->update(['shop_name'=>$data['shop_name'],'shop_mobile'=>$data['shop_mobile'],'shop_address'=>$data['shop_address'],
+                'shop_city'=>$data['shop_city'],'shop_state'=>$data['shop_state'],'shop_country'=>$data['shop_country'],'shop_pincode'=>$data['shop_pincode'],
+                'business_licence_number'=>$data['business_licence_number'],'pan_number'=>$data['pan_number'],'gst_number'=>$data['gst_number'],
+                'address_proof'=>$data['address_proof'],'address_proof_image'=>$imageName]);
+
+                return redirect()->back()->with('success_message','Vendor Business Details Updated Successfully!');
+
+            }
+
+            $vendorDetails = VendorsBusinessDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
+
         }elseif ($slug=="bank") {
-            # code...
+
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                //echo "<pre>"; print_r($data); die;
+
+                $rules = [
+                    'account_holder_name' => 'required|regex:/^[\pL\s\-]+$/u',
+                    'bank_name' => 'required',
+                    'account_number' => 'required|numeric',
+                    'bank_ifsc_code' => 'required',
+                ];
+    
+                $customeMessage = [
+                    //add custome message here....
+                    'account_holder_name.required' => 'Account Holder Name is Required!',
+                    'account_holder_name.regex' => 'Valid Account Holder Name is Required!',
+                    'bank_name.required' => 'Bank Name is Required!',
+                    'account_number.required' => 'Account Number is Required!',
+                    'account_number.numeric' => 'Valid Account Number is Required!',
+                    'bank_ifsc_code.required' => 'Bank IFSC Code is Required!',
+                ];
+    
+                $this->validate($request,$rules,$customeMessage);
+    
+               
+            // update in vendors Bank details
+            VendorsBankDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->update(['account_holder_name'=>$data['account_holder_name'],'bank_name'=>$data['bank_name'],
+                    'account_number'=>$data['account_number'],'bank_ifsc_code'=>$data['bank_ifsc_code']]);
+
+                return redirect()->back()->with('success_message','Vendor Bank Details Updated Successfully!');
+
+            }
+
+            $vendorDetails = VendorsBankDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
         }
 
         return view('admin.setting.update_vendor_details')->with(compact('slug','vendorDetails'));
