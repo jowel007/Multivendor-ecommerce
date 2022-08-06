@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{{ url('admin') }}/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" type="text/css" href="{{ url('admin') }}/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url('admin') }}/vendors/mdi/css/materialdesignicons.min.css">
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ url('admin') }}/css/vertical-layout-light/style.css">
   <!-- endinject -->
