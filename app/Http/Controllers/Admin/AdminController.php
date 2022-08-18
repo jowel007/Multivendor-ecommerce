@@ -14,6 +14,7 @@ use App\Models\Admin;
 use App\Models\Vendor;
 use App\Models\VendorsBusinessDetails;
 use App\Models\VendorsBankDetails;
+use App\Models\Country;
 
 class AdminController extends Controller
 {
@@ -263,7 +264,9 @@ class AdminController extends Controller
             $vendorDetails = VendorsBankDetails::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
         }
 
-        return view('admin.setting.update_vendor_details')->with(compact('slug','vendorDetails'));
+        $countries = Country::where('status',1)->get()->toArray();
+
+        return view('admin.setting.update_vendor_details')->with(compact('slug','vendorDetails','countries'));
     }
     //end Update vendor details
 
