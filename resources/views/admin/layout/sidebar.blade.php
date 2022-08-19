@@ -57,6 +57,21 @@
             </div>
           </li>
 
+          <li class="nav-item">
+            <a @if(Session::get("page")=="sctions" || Session::get("page")=="categories" || Session::get("page")=="products") style="background: #4B49AC !important; color:#fff !important" @endif class="nav-link" data-toggle="collapse" href="#ui-catelogue" aria-expanded="false" aria-controls="ui-catelogue">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">Catalogue Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-catelogue">
+              <ul class="nav flex-column sub-menu" style="background :#fff !important; color:#4B49AC !important">
+                <li class="nav-item"> <a @if(Session::get("page")=="sctions") style="background: #4B49AC !important; color:#fff !important" @else style="background: #fff !important; color:#4B49AC !important"  @endif class="nav-link" href="{{ url('admin/sections') }}">Sections</a></li>
+                <li class="nav-item"> <a @if(Session::get("page")=="categories") style="background: #4B49AC !important; color:#fff !important" @else style="background: #fff !important; color:#4B49AC !important"  @endif class="nav-link" href="{{ url('admin/categories') }}">Categories</a></li>
+                <li class="nav-item"> <a @if(Session::get("page")=="products") style="background: #4B49AC !important; color:#fff !important" @else style="background: #fff !important; color:#4B49AC !important"  @endif class="nav-link" href="{{ url('admin/products') }}">Products</a></li>
+              </ul>
+            </div>
+          </li>
+
 
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-user" aria-expanded="false" aria-controls="ui-user">

@@ -52,7 +52,12 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
 
     //admin logout
-      Route::get('logout','AdminController@logout');
+    Route::get('logout','AdminController@logout');
+
+    //section
+    Route::get('sections','SectionController@sections');
+    Route::post('update-section-status','SectionController@UpdateSectionStatus');
+
       
     });
 
