@@ -58,6 +58,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::get('sections','SectionController@sections');
     Route::post('update-section-status','SectionController@UpdateSectionStatus');
     Route::get('delete-section/{id}','SectionController@DeleteSection');
+    Route::match(['get', 'post'],'add-edit-section/{id?}','SectionController@addEditSection');
       
     });
 

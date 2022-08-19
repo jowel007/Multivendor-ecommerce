@@ -8,9 +8,11 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Section</h4>
+                  <a href="{{ url('admin/add-edit-section') }}" style="max-width: 150px; float:right; display :inline-block"  class="btn btn-block btn-primary">Add Section</a>
                   {{-- <p class="card-description">
                     Add class <code>.table-bordered</code>
                   </p> --}}
+                  
                   @if(Session::has('success_message'))
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                       <strong>Success:</strong> {{ Session::get('success_message') }}
