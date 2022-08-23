@@ -1,7 +1,7 @@
 $(document).ready(function () { 
     //call datatable class
     $('#sections').DataTable();
-
+    $('#categories').DataTable();
 
     $(".nav-item").removeClass("active");
     $(".nav-link").removeClass("active");
@@ -83,6 +83,34 @@ $(document).ready(function () {
 
         })
     });
+
+
+         // update category status
+         $(document).on("click",".updateCategoryStatus",function() {
+            var status = $(this).children("i").attr("status");
+            var category_id = $(this).attr("category_id");
+            // alert(admin_id);
+    
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:'post',
+                url:'/admin/update-category-status',
+                data:{status:status,category_id:category_id},
+                success:function(resp){
+                    //alert(resp);
+                    if (resp['status']==0) {
+                        $("#category-"+category_id).html("<i style='font-size: 25px' class='mdi mdi-bookmark-outline' status='InActive'></i>");
+                    }else if(resp['status']==1){
+                        $("#category-"+category_id).html("<i style='font-size: 25px' class='mdi mdi-bookmark-check' status='Active'></i>");
+                    }
+                },error:function(){
+                    alert("Error");
+                }
+    
+            })
+        });
 
     //confirm delete 
 
