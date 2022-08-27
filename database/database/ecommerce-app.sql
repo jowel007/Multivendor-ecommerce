@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2022 at 09:18 PM
+-- Generation Time: Aug 23, 2022 at 01:43 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -47,7 +47,39 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`id`, `name`, `type`, `vendor_id`, `mobile`, `email`, `password`, `image`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'AB', 'admin', 0, '01847313526', 'admin@admin.com', '$2y$10$qEFeKtO5ojI1BhLU/vYwj.psKFCy4CeSTP0ibtarMDmahjGZhIOvu', '79196.jpg', 1, NULL, '2022-08-07 12:06:17'),
-(2, 'Jhon Deo', 'vendor', 1, '01875628575', 'jhon@admin.com', '$2a$12$Fw87R.uUIfAaiJgsOO3FVuwqCPDQBVXVIE1a.Ug5WAaqQbW2pjdpW', '91266.jpg', 1, NULL, '2022-08-18 13:13:36');
+(2, 'Jhon Deo', 'vendor', 1, '01875628575', 'jhon@admin.com', '$2a$12$Fw87R.uUIfAaiJgsOO3FVuwqCPDQBVXVIE1a.Ug5WAaqQbW2pjdpW', '91266.jpg', 1, NULL, '2022-08-18 22:58:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_discount` double(8,2) NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_keywords` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `parent_id`, `section_id`, `category_name`, `category_image`, `category_discount`, `description`, `url`, `meta_title`, `meta_description`, `meta_keywords`, `status`, `created_at`, `updated_at`) VALUES
+(1, 0, 1, 'Men', '', 0.00, '', 'men', '', '', '', 1, NULL, '2022-08-23 05:40:16'),
+(2, 0, 1, 'WoMen', '', 0.00, '', 'women', '', '', '', 1, NULL, '2022-08-23 05:40:17'),
+(3, 0, 1, 'Kids', '', 0.00, '', 'kids', '', '', '', 1, NULL, '2022-08-23 05:40:18');
 
 -- --------------------------------------------------------
 
@@ -356,7 +388,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2022_07_15_135421_create_vendors_table', 2),
 (6, '2022_07_15_140628_create_admins_table', 3),
 (7, '2022_07_25_163107_create_vendors_business_details_table', 4),
-(8, '2022_07_25_164037_create_vendors_bank_details_table', 5);
+(8, '2022_07_25_164037_create_vendors_bank_details_table', 5),
+(9, '2022_08_19_040931_create_sections_table', 6),
+(10, '2022_08_23_103908_create_categories_table', 7);
 
 -- --------------------------------------------------------
 
@@ -387,6 +421,30 @@ CREATE TABLE `personal_access_tokens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sections`
+--
+
+CREATE TABLE `sections` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Clothing', 1, NULL, '2022-08-18 22:57:14'),
+(8, 'Electronics', 1, NULL, NULL),
+(10, 'Appliances', 1, NULL, NULL),
+(12, 'Computer', 1, '2022-08-19 16:37:15', '2022-08-19 16:38:48');
 
 -- --------------------------------------------------------
 
@@ -511,6 +569,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `countries`
 --
 ALTER TABLE `countries`
@@ -542,6 +606,12 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `sections`
+--
+ALTER TABLE `sections`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -580,6 +650,12 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
@@ -595,13 +671,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sections`
+--
+ALTER TABLE `sections`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`

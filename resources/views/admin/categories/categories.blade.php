@@ -8,7 +8,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Categories</h4>
-                  <a href="{{ url('admin/add-edit-section') }}" style="max-width: 150px; float:right; display :inline-block"  class="btn btn-block btn-primary">Add Category</a>
+                  <a href="{{ url('admin/add-edit-category') }}" style="max-width: 150px; float:right; display :inline-block"  class="btn btn-block btn-primary">Add Category</a>
                   {{-- <p class="card-description">
                     Add class <code>.table-bordered</code>
                   </p> --}}
