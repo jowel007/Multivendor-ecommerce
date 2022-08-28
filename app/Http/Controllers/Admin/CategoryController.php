@@ -43,17 +43,23 @@ class CategoryController extends Controller
             # add category functionality
             $title = "Add Category";
             $category = new Category;
+            $getCategories = array();
             $message = "Category added successfully !";
         }else {
             # edit category functionality
             $title = "Edit Category";
-            $category = find($id);
+            $category = Category::find($id);
+            $getCategories = Category::with('subcategories')->where(['parent_id'=>0,'section_id'=>$category['section_id']])->get();
             $message = "Category updated successfully !";
         }
 
         if ($request->isMethod('post')) {
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
+
+            if ($data['category_discount']=="") {
+                $data['category_discount']=0;
+            }
 
              //upload Category image
              if ($request->hasFile('category_image')) {
@@ -91,6 +97,19 @@ class CategoryController extends Controller
         //Get All Section
         $getSections = Section::get()->toArray();
 
-        return view('admin.categories.add_edit_category')->with(compact('title','category','getSections'));
+        return view('admin.categories.add_edit_category')->with(compact('title','category','getSections','getCategories'));
     }
+
+    public function apendCategoryLevel(Request $request){
+        if ($request->ajax()) {
+            $data = $request->all();
+            // echo $data['section_id']; die;
+            $getCategories = Category::with('subcategories')->where(['parent_id'=>0,'section_id'=>$data['section_id']])->get()->toArray();
+            //dd($getCategories);
+            return view('admin.categories.append_categories_level')->with(compact('getCategories'));
+        }
+    }
+
+
+
 }

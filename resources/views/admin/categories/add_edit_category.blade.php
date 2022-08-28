@@ -66,7 +66,7 @@
                  
                  <div class="form-group">
                     <label for="category_name">Category Name </label>
-                    <input type="text" @if(!empty($category['name'])) value="{{ $category['name'] }}" @else value="{{ old('category_name') }}" @endif class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name">
+                    <input type="text" @if(!empty($category['category_name'])) value="{{ $category['category_name'] }}" @else value="{{ old('category_name') }}" @endif class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name">
                  </div>
 
                 <div class="form-group">
@@ -74,16 +74,13 @@
                   <select name="section_id" id="section_id" class="form-control">
                       <option value="">Select</option>
                     @foreach ($getSections as $section)
-                      <option value="{{ $section['id'] }}">{{ $section['name'] }}</option>
+                      <option value="{{ $section['id'] }}" @if (!empty($category['section_id']) && $category['section_id']==$section['id']) selected @endif>{{ $section['name'] }}</option>
                     @endforeach
                   </select>
                 </div>
 
-              <div class="form-group">
-                <label for="parent_id">Select Category Level</label>
-                <select name="parent_id" id="parent_id" class="form-control">
-                  <option value="0">Main Category</option>
-                </select>
+              <div id="appendCategoriesLevel">
+                @include('admin.categories.append_categories_level')
               </div>
 
               <div class="form-group">
