@@ -57,9 +57,29 @@ class CategoryController extends Controller
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
 
+            $rules = [
+                'category_name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'section_id' => 'required',
+                'url' => 'required',
+            ];
+
+            $customeMessage = [
+                //add custome message here....
+                'category_name.required' => 'Category Name is Required!',
+                'category_name.regex' => 'Valid Category Name is Required!',
+                'section_id.required' => 'Section is Required!',
+                'url.required' => 'Category URL is Required!',
+            ];
+
+            $this->validate($request,$rules,$customeMessage);
+
             if ($data['category_discount']=="") {
                 $data['category_discount']=0;
             }
+
+            // if ($data['description']=="") {
+            //     $data['description']="";
+            // }
 
              //upload Category image
              if ($request->hasFile('category_image')) {
