@@ -9,6 +9,7 @@ use App\Models\Section;
 use Session;
 use Image;
 
+
 class CategoryController extends Controller
 {
     public function categories()
@@ -89,7 +90,7 @@ class CategoryController extends Controller
                     $extension = $image_tmp->getClientOriginalExtension();
                     //generate new image
                     $imageName = rand(111,99999).'.'.$extension;
-                    $imagePath = 'front/category_image/'.$imageName;
+                    $imagePath = 'front/images/category_image/'.$imageName;
                     //upload the image
                     Image::make($image_tmp)->save($imagePath);
                     $category->category_image = $imageName;
@@ -128,6 +129,36 @@ class CategoryController extends Controller
             //dd($getCategories);
             return view('admin.categories.append_categories_level')->with(compact('getCategories'));
         }
+    }
+
+
+    //delte category
+
+    public function deleteCategory($id){
+        Category::where('id',$id)->delete();
+        $message = "Category has been deleted successfully";
+        return redirect()->back()->with('success_message',$message);
+    }
+
+    //delete category image
+    public function deleteCategoryImage($id){
+        // get category image
+        $categoryImage = Category::select('category_image')->where('id',$id)->first();
+
+        // get category image path
+        $category_image_path = 'front/images/category_image/';
+
+        //delete category image from category_image folder if exist
+
+        if (file_exists($category_image_path.$categoryImage->category_image)) {
+           unlink($category_image_path.$categoryImage->category_image);
+        }
+
+        //delete category image from category table
+        Category::where('id',$id)->update(['category_image'=>'']);
+
+        $message = "Category Image has been deleted successfully";
+        return redirect()->back()->with('success_message',$message);
     }
 
 

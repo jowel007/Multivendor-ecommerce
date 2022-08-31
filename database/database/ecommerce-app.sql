@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2022 at 01:43 PM
+-- Generation Time: Aug 29, 2022 at 05:44 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -61,12 +61,12 @@ CREATE TABLE `categories` (
   `section_id` int(11) NOT NULL,
   `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category_discount` double(8,2) NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_discount` float NOT NULL DEFAULT 0,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meta_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meta_keywords` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_keywords` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -77,9 +77,16 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `parent_id`, `section_id`, `category_name`, `category_image`, `category_discount`, `description`, `url`, `meta_title`, `meta_description`, `meta_keywords`, `status`, `created_at`, `updated_at`) VALUES
-(1, 0, 1, 'Men', '', 0.00, '', 'men', '', '', '', 1, NULL, '2022-08-23 05:40:16'),
-(2, 0, 1, 'WoMen', '', 0.00, '', 'women', '', '', '', 1, NULL, '2022-08-23 05:40:17'),
-(3, 0, 1, 'Kids', '', 0.00, '', 'kids', '', '', '', 1, NULL, '2022-08-23 05:40:18');
+(1, 0, 1, 'Men', '', 0, '', 'men', '', '', '', 1, NULL, '2022-08-23 05:40:16'),
+(2, 0, 1, 'WoMen', '', 0, '', 'women', '', '', '', 1, NULL, '2022-08-23 05:40:17'),
+(3, 0, 1, 'Kids', '', 0, '', 'kids', '', '', '', 1, NULL, '2022-08-23 05:40:18'),
+(4, 0, 8, 'smart phone', '', 10, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'smart phone', 'smart phone', 'smart phone', 'smart phone', 1, '2022-08-27 11:08:32', '2022-08-29 09:04:34'),
+(5, 1, 1, 'T-Shirt', '', 10, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'T-Shirt', 'T-Shirt', 'T-Shirt', 'T-Shirt', 1, '2022-08-28 06:25:37', '2022-08-29 09:04:12'),
+(6, 0, 8, 'mobile', '', 10, 'A mobile phone is a wireless handheld device that allows users to make and receive calls.', 'https://www.techopedia.com/', 'mobile', 'mobile', 'mobile', 1, '2022-08-29 09:02:34', '2022-08-29 09:02:34'),
+(7, 0, 12, 'macbook', '', 4, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'MacBook', 'MacBook', 'MacBook', 'MacBook', 1, '2022-08-29 09:03:24', '2022-08-29 09:03:24'),
+(8, 1, 1, 'Shirt', '', 0, NULL, 'Shirts', NULL, NULL, NULL, 1, '2022-08-29 09:36:58', '2022-08-29 09:36:58'),
+(9, 2, 1, 'Tops', '', 0, NULL, 'tops', NULL, NULL, NULL, 1, '2022-08-29 09:40:47', '2022-08-29 09:40:47'),
+(10, 2, 1, 'Denims', '', 0, NULL, 'Denims', NULL, NULL, NULL, 1, '2022-08-29 09:41:53', '2022-08-29 09:41:53');
 
 -- --------------------------------------------------------
 
@@ -653,7 +660,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `countries`
