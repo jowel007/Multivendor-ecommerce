@@ -75,7 +75,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::match(['get','post'],'add-edit-brand/{id?}','BrandController@addEditBrand');
 
 
-    });
+  });
 
 
 
