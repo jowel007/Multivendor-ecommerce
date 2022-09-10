@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 29, 2022 at 05:44 PM
+-- Host: 127.0.0.1:3307
+-- Generation Time: Sep 10, 2022 at 05:01 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -52,6 +52,34 @@ INSERT INTO `admins` (`id`, `name`, `type`, `vendor_id`, `mobile`, `email`, `pas
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `brands`
+--
+
+CREATE TABLE `brands` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Arrow', 1, NULL, '2022-09-02 08:22:55'),
+(3, 'Lee', 1, NULL, NULL),
+(4, 'Samsung', 1, NULL, NULL),
+(5, 'LG', 1, NULL, NULL),
+(6, 'Lenovo', 1, NULL, NULL),
+(7, 'MI', 1, NULL, NULL),
+(8, 'Gap', 1, '2022-09-02 08:25:26', '2022-09-02 08:25:26'),
+(9, 'Others', 1, '2022-09-02 08:26:07', '2022-09-02 08:26:07');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -82,11 +110,10 @@ INSERT INTO `categories` (`id`, `parent_id`, `section_id`, `category_name`, `cat
 (3, 0, 1, 'Kids', '', 0, '', 'kids', '', '', '', 1, NULL, '2022-08-23 05:40:18'),
 (4, 0, 8, 'smart phone', '', 10, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'smart phone', 'smart phone', 'smart phone', 'smart phone', 1, '2022-08-27 11:08:32', '2022-08-29 09:04:34'),
 (5, 1, 1, 'T-Shirt', '', 10, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'T-Shirt', 'T-Shirt', 'T-Shirt', 'T-Shirt', 1, '2022-08-28 06:25:37', '2022-08-29 09:04:12'),
-(6, 0, 8, 'mobile', '', 10, 'A mobile phone is a wireless handheld device that allows users to make and receive calls.', 'https://www.techopedia.com/', 'mobile', 'mobile', 'mobile', 1, '2022-08-29 09:02:34', '2022-08-29 09:02:34'),
+(6, 0, 8, 'mobile', '16919.png', 10, NULL, 'https://www.techopedia.com/', 'mobile', 'mobile', 'mobile', 1, '2022-08-29 09:02:34', '2022-08-31 10:04:17'),
 (7, 0, 12, 'macbook', '', 4, 'The MacBook is Apple\'s third laptop computer family, introduced in 2006', 'MacBook', 'MacBook', 'MacBook', 'MacBook', 1, '2022-08-29 09:03:24', '2022-08-29 09:03:24'),
-(8, 1, 1, 'Shirt', '', 0, NULL, 'Shirts', NULL, NULL, NULL, 1, '2022-08-29 09:36:58', '2022-08-29 09:36:58'),
-(9, 2, 1, 'Tops', '', 0, NULL, 'tops', NULL, NULL, NULL, 1, '2022-08-29 09:40:47', '2022-08-29 09:40:47'),
-(10, 2, 1, 'Denims', '', 0, NULL, 'Denims', NULL, NULL, NULL, 1, '2022-08-29 09:41:53', '2022-08-29 09:41:53');
+(8, 1, 1, 'Shirt', '6546.jpg', 0, NULL, 'Shirts', 'Shirts', 'Shirts', 'Shirts', 1, '2022-08-29 09:36:58', '2022-08-31 10:04:31'),
+(9, 2, 1, 'Tops', '', 0, NULL, 'tops', 'tops', 'tops', 'tops', 1, '2022-08-29 09:40:47', '2022-08-31 09:31:15');
 
 -- --------------------------------------------------------
 
@@ -397,7 +424,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2022_07_25_163107_create_vendors_business_details_table', 4),
 (8, '2022_07_25_164037_create_vendors_bank_details_table', 5),
 (9, '2022_08_19_040931_create_sections_table', 6),
-(10, '2022_08_23_103908_create_categories_table', 7);
+(10, '2022_08_23_103908_create_categories_table', 7),
+(11, '2022_09_02_135328_create_brands_table', 8),
+(12, '2022_09_02_142901_create_products_table', 9);
 
 -- --------------------------------------------------------
 
@@ -428,6 +457,46 @@ CREATE TABLE `personal_access_tokens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `brand_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `admin_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_discount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_weight` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_video` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_keywords` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_featured` enum('No','Yes') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `section_id`, `category_id`, `brand_id`, `vendor_id`, `admin_id`, `admin_type`, `product_name`, `product_code`, `product_color`, `product_price`, `product_discount`, `product_weight`, `product_image`, `product_video`, `description`, `meta_title`, `meta_description`, `meta_keywords`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES
+(1, 8, 4, 7, 1, 2, 'vendor', 'Redmi Note 11', 'RN11', 'Gradient', '20500', '10', '181', '', '', '', '', '', '', 'Yes', 1, NULL, NULL),
+(2, 1, 5, 8, 0, 1, 'superadmin', 'Red casul T-shirt', 'RTS11', 'Red', '1200', '20', '120', '', '', '', '', '', '', 'Yes', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -576,6 +645,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
@@ -613,6 +688,12 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sections`
@@ -657,6 +738,12 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
@@ -678,13 +765,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sections`
